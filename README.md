@@ -1,66 +1,125 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Laravel Docker Scaffold
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is a framework developed to quickly run Laravel applications on Docker. You can run your Laravel project in Docker containers with a single command.
 
-## About Laravel
+## Advantages
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Quick Setup**: Laravel environment running with a single command
+- **Flexible Configuration**: Easily change settings like container names and ports
+- **Portability**: Same development environment on different machines
+- **Isolation**: Each project runs in its own containers
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Requirements
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Docker
+- Docker Compose
 
-## Learning Laravel
+## Initial Configuration
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Before starting the containers, configure your environment variables:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Create a `.env` file by copying the `.env.example`:
+   ```bash
+   cp .env.example .env
+   ```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+2. Configure your application settings:
+   ```ini
+   # Application settings
+   APP_NAME=YourAppName
+   APP_PORT=7004            # The port your application will use
+   APP_PREFIX=laravel       # Prefix for your container names
+   
+   # Database settings
+   DB_DATABASE=your_database
+   DB_USERNAME=your_username
+   DB_PASSWORD=your_password
+   ```
 
-## Laravel Sponsors
+3. Customize other settings in the `.env` file according to your needs
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Installation and Usage
 
-### Premium Partners
+1. Clone this repository or copy the files to a new project
+2. Run the following command:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```bash
+docker-compose up -d
+```
 
-## Contributing
+This command automatically starts:
+- PHP/Laravel application container
+- MySQL database container
+- Nginx web server container
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Installing Dependencies
 
-## Code of Conduct
+After the containers are running, to install Composer dependencies:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+docker-compose exec app composer install
+```
 
-## Security Vulnerabilities
+## Application Configuration
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Complete the necessary steps for the Laravel application:
 
-## License
+```bash
+# Generate application key
+docker-compose exec app php artisan key:generate
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# Create database tables
+docker-compose exec app php artisan migrate
+```
+
+## Customization
+
+You can customize your application by editing the variables in the `.env` file:
+
+- `APP_PORT`: The port on which the application will run (default: 7004)
+- `APP_PREFIX`: Prefix for container and image names (default: laravel)
+
+Example: If you set `APP_PREFIX=myproject`, the container names will be `myproject-app`, `myproject-db`, etc.
+
+## Access
+
+After completing the setup, you can access your application from your browser at:
+
+```
+http://localhost:7004
+```
+
+## Frequently Used Commands
+
+### Viewing Container Logs
+
+```bash
+docker-compose logs
+```
+
+### Running Commands Inside the Container
+
+```bash
+docker-compose exec app php artisan <command>
+```
+
+### Stopping Containers
+
+```bash
+docker-compose down
+```
+
+### Restarting Containers
+
+```bash
+docker-compose restart
+```
+
+## Usage for New Projects
+
+To use this framework in your new Laravel projects:
+
+1. Copy this repository to your new project folder
+2. Change the `APP_PREFIX` value in the `.env` file to suit your project
+3. Run the `docker-compose up -d` command
+4. Install Composer dependencies and complete Laravel configurations
