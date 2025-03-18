@@ -14,6 +14,42 @@ This project is a framework developed to quickly run Laravel applications on Doc
 - Docker
 - Docker Compose
 
+## Kurulum (Installation)
+
+### Repoyu Klonlama (Cloning the Repository)
+
+1. GitHub reposunu bilgisayarınıza klonlayın:
+   ```bash
+   git clone https://github.com/truncgil/laravel-docker-scaffold.git
+   ```
+
+2. Klonladığınız dizine girin:
+   ```bash
+   cd laravel-docker-scaffold
+   ```
+
+3. (Opsiyonel) Yeni bir Laravel projesi başlatmak istiyorsanız, `.git` klasörünü silebilirsiniz:
+   ```bash
+   rm -rf .git
+   ```
+
+### Mevcut Bir Projede Kullanma
+
+1. Mevcut Laravel projeniz için repoyu klonlayın:
+   ```bash
+   git clone https://github.com/truncgil/laravel-docker-scaffold.git temp-scaffold
+   ```
+
+2. Docker yapılandırma dosyalarını projenize kopyalayın:
+   ```bash
+   cp -r temp-scaffold/docker/ temp-scaffold/docker-compose.yml temp-scaffold/.env.example your-project/
+   ```
+
+3. Geçici klasörü silin:
+   ```bash
+   rm -rf temp-scaffold
+   ```
+
 ## Initial Configuration
 
 Before starting the containers, configure your environment variables:
@@ -40,7 +76,7 @@ Before starting the containers, configure your environment variables:
 
 ## Installation and Usage
 
-1. Clone this repository or copy the files to a new project
+1. Clone this repository or copy the files to a new project (see detailed instructions above)
 2. Run the following command:
 
 ```bash
@@ -119,7 +155,7 @@ docker-compose restart
 
 To use this framework in your new Laravel projects:
 
-1. Copy this repository to your new project folder
+1. Copy this repository to your new project folder (see detailed cloning instructions above)
 2. Change the `APP_PREFIX` value in the `.env` file to suit your project
 3. Run the `docker-compose up -d` command
 4. Install Composer dependencies and complete Laravel configurations
